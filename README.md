@@ -1,30 +1,59 @@
-# React + TypeScript + Vite
+# Random Quote Machine
+# 
+Este es un proyecto de la plataforma **FreeCodeCamp** del curso **Front-End Development Libraries** para la certificación del programa.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+------------
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Objetivo**: Construir una aplicación que sea funcionalmente similar a esta: https://random-quote-machine.freecodecamp.rocks/.
 
-## Expanding the ESLint configuration
+**Requisitos**: Los requisitos para construir la apliación se pueden encontrar en:
+https://www.freecodecamp.org/learn/front-end-development-libraries/front-end-development-libraries-projects/build-a-random-quote-machine
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+-------------
+###Funcionamiento
+Este código implementa una aplicación simple para mostrar citas aleatorias en una página web. <br>
 
-- Configure the top-level `parserOptions` property like this:
+Define una interfaz llamada Quote que especifica la estructura de una cita, que consta de dos propiedades: `quote` para el contenido de la cita y `author` para el autor de la cita
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
+```javascript
+ interface Quote{
+  quote:string;
+  author:string;
 }
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Esta función devuelve una cita aleatoria seleccionada de un array llamado quotes. Utiliza `Math.floor(Math.random() * quotes.length)` para generar un índice aleatorio y seleccionar una cita aleatoria del array.
+```javascript
+const getRandomQuote = (): Quote =>{
+  return quotes[Math.floor(Math.random() * quotes.length)];
+}
+```
+
+Esta función genera un color aleatorio en formato RGB. Genera valores aleatorios para los componentes rojo (red), azul (blue) y verde (green) y luego los concatena en una cadena en formato de color RGB..
+```javascript
+const getRandomColor = (): string =>{
+ 	const red= Math.floor(Math.random()*128);
+ 	const blue= Math.floor(Math.random()*128);
+ 	const green= Math.floor(Math.random()*128);
+ 	return `rgb(${red}, ${blue},${green})`;
+}
+```
+<br>
+
+`quote` almacena la cita actualmente mostrada en la aplicación. Se inicializa con una cita aleatoria obtenida mediante la función getRandomQuote.
+`randomColor`almacena el color de fondo actual de la aplicación. Se inicializa con un color aleatorio obtenido mediante la función getRandomColor.
+Función de Cambio de Cita (changeQuote):
+
+Esta función se ejecuta cuando se activa un evento (por ejemplo, hacer clic en un botón) para cambiar la cita mostrada. Actualiza el estado de quote llamando a setQuote con una nueva cita aleatoria obtenida mediante la función getRandomQuote. Además, actualiza el estado de randomColor llamando a setRandomColor con un nuevo color aleatorio obtenido mediante la función getRandomColor.
+```javascript
+Function App() {
+  const [quote, setQuote] = useState<Quote>(getRandomQuote());
+
+  const [randomColor, setRandomColor] = useState<string>(getRandomColor());
+
+  const changeQuote = () => {
+    setQuote(getRandomQuote());
+    setRandomColor(getRandomColor())
+  }
+```
